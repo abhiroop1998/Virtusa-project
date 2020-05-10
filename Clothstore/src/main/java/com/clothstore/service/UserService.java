@@ -1,7 +1,10 @@
 package com.clothstore.service;
 
+import java.util.Set;
+
 import com.clothstore.domain.User;
 import com.clothstore.domain.security.PasswordResetToken;
+import com.clothstore.domain.security.UserRole;
 
 public interface UserService {
 	
@@ -12,5 +15,6 @@ public interface UserService {
 	User findByUsername(String username);
 	
 	User findByEmail(String email);
+	User createUser(User user, Set<UserRole> userRoles) throws Exception;
 
 }

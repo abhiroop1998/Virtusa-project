@@ -1,20 +1,31 @@
 package com.clothstore.service.impl;
 
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.clothstore.domain.User;
 import com.clothstore.domain.security.PasswordResetToken;
+import com.clothstore.domain.security.UserRole;
 import com.clothstore.repository.PasswordResetTokenRepository;
+import com.clothstore.repository.RoleRepository;
 import com.clothstore.repository.UserRepository;
 import com.clothstore.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
 	
+	private static final Logger LOG =  LoggerFactory.getLogger(UserService.class);
+	
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private RoleRepository roleRepository;
+	
 	@Autowired
 	private PasswordResetTokenRepository passwordResetTokenRepository;
 
@@ -37,5 +48,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+	
+	public User createUser(User user, Set<UserRole> userRoles)throws Exception{
+		User localUser = userRepository.findByUsername(user.getUsername());
+		
+		if(localUser!=null) {
+			LOG.info("user {} already exists. Nothing will be done",user.getUsername());
+		}else {
+			for(UserRole ur:userRoles) {
+				
+				roleRepository.save(ur.getRole());
+			}
+			user.getUserRoles().addAll(userRoles);
+			localUser = userRepository.save(user);
+		}
+		return localUser;
 	}
 }

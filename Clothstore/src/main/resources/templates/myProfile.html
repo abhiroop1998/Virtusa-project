@@ -10,7 +10,7 @@
 			<div class="col-xs-8">
 				<h2 class="section-headline">
 					<h2 class="section-headline">
-						<span th:text="${#strings.toUpperCase{user.username}}"></span>
+						<span th:text="${#strings.toUpperCase(user.username)}"></span>
 					</h2>
 				</h2>
 			</div>
@@ -46,7 +46,7 @@
 								<div class="panel-body"
 									style="back-ground-color: #ededed; margin-top: 20px;">
 									<form th:action="@{/updateUserInfo}" method="post">
-										<input type="hidden" name="id" th:value="{user.id}">
+										<input type="hidden" name="id" th:value="${user.id}"/>
 										<div class="bg-info" th:if="${updateUserInfo}">user info
 											updated.</div>
 										<div class="form-group">
@@ -66,8 +66,8 @@
 										<div class="form-group">
 
 											<label for="userName">Username</label> <input type="text"
-												class="form-control" id="userName" name="userName"
-												th:value="${user.userName}" />
+												class="form-control" id="userName" name="username"
+												th:value="${user.username}" />
 										</div>
 										<div class="form-group">
 
