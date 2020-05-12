@@ -33,7 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			"/images/**",
 			"/",
 			"/newUser",
-			"/forgetPassword"
+			"/forgetPassword",
+			"/login",
+			"/fonts/**"    //prevent download of unknown file font.tff
 	};
 	
 	@Override
@@ -46,7 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.
 			csrf().disable().cors().disable().
-			formLogin().failureUrl("/login?error").defaultSuccessUrl("/")
+			formLogin().failureUrl("/login?error")
+//			.defaultSuccessUrl("/")
 			.loginPage("/login").permitAll()
 			.and()
 			.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
